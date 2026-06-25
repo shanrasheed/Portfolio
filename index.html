@@ -40,7 +40,7 @@
     .hero-name { font-size:clamp(2.6rem,5.5vw,4.6rem); font-weight:700; line-height:1.05; letter-spacing:-1.5px; margin-bottom:0.5rem; }
     .hero-name span { color:var(--neon); }
     .hero-role { font-size:clamp(1rem,2.2vw,1.35rem); color:var(--muted); font-weight:400; margin-bottom:1.4rem; min-height:2rem; }
-    .hero-desc { color:var(--muted); max-width:560px; line-height:1.8; font-size:0.95rem; margin-bottom:2.5rem; }
+    .hero-desc { color:var(--muted); max-width:600px; line-height:1.8; font-size:0.95rem; margin-bottom:2.5rem; }
     .btn-neon { background:transparent; border:1.5px solid var(--neon); color:var(--neon); padding:0.7rem 1.8rem; border-radius:8px; font-weight:600; font-size:0.85rem; letter-spacing:0.5px; transition:all 0.25s; text-decoration:none; display:inline-block; cursor:pointer; }
     .btn-neon:hover { background:var(--neon-dim); color:var(--neon); box-shadow:0 0 18px rgba(0,245,196,0.15); }
     .btn-ghost { background:transparent; border:1.5px solid var(--border); color:var(--text); padding:0.7rem 1.8rem; border-radius:8px; font-weight:500; font-size:0.85rem; transition:all 0.25s; text-decoration:none; display:inline-block; }
@@ -59,14 +59,22 @@
     .section-line { width:44px; height:2px; background:var(--neon); margin-bottom:3rem; }
     .section-bg { background:var(--bg2); }
 
-    /* ABOUT */
-    .about-img-placeholder { width:300px; height:360px; border-radius:14px; background:var(--bg3); border:1px solid var(--border); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; }
-    .about-badge { position:absolute; bottom:-14px; right:-14px; background:var(--card); border:1px solid var(--neon); border-radius:10px; padding:10px 18px; }
-    .about-badge-num { font-family:'JetBrains Mono',monospace; font-size:1.6rem; color:var(--neon); font-weight:700; line-height:1; }
-    .about-badge-text { font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
+    /* ABOUT — no image, avatar initials instead */
+    .avatar-box { width:160px; height:160px; border-radius:20px; background:var(--neon-dim); border:2px solid var(--neon-mid); display:flex; flex-direction:column; align-items:center; justify-content:center; margin:0 auto 1.5rem; position:relative; }
+    .avatar-initials { font-family:'JetBrains Mono',monospace; font-size:2.8rem; font-weight:700; color:var(--neon); line-height:1; }
+    .avatar-label { font-family:'JetBrains Mono',monospace; font-size:0.6rem; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-top:6px; }
+    .avatar-ring { position:absolute; inset:-8px; border-radius:26px; border:1px dashed var(--neon-mid); animation:spin 18s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+
+    /* INFO CARDS row */
+    .info-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.1rem 1.3rem; display:flex; align-items:center; gap:12px; transition:border-color 0.25s; }
+    .info-card:hover { border-color:var(--neon-mid); }
+    .info-card-icon { font-size:1.2rem; }
+    .info-card-label { font-size:0.68rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:2px; font-family:'JetBrains Mono',monospace; }
+    .info-card-val { font-size:0.88rem; font-weight:600; }
+
     .about-text { color:var(--muted); line-height:1.85; font-size:0.95rem; margin-bottom:1.2rem; }
     .tag { background:var(--neon-dim); color:var(--neon); border:1px solid var(--neon-mid); border-radius:6px; padding:3px 11px; font-size:0.75rem; font-family:'JetBrains Mono',monospace; display:inline-block; margin:3px 2px; }
-    .tag-purple { background:rgba(124,111,250,0.1); color:#a89ef7; border:1px solid rgba(124,111,250,0.25); }
 
     /* EXPERIENCE TIMELINE */
     .timeline { position:relative; padding-left:30px; }
@@ -89,7 +97,7 @@
     .skill-track { height:4px; background:var(--border); border-radius:99px; overflow:hidden; }
     .skill-fill { height:100%; background:linear-gradient(90deg,var(--neon),var(--accent2)); border-radius:99px; width:0; transition:width 1.1s cubic-bezier(0.4,0,0.2,1); }
 
-    /* PROJECTS / HIGHLIGHTS */
+    /* PROJECTS */
     .proj-card { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1.75rem; transition:all 0.3s; height:100%; }
     .proj-card:hover { border-color:var(--neon-mid); transform:translateY(-3px); }
     .proj-icon { width:48px; height:48px; background:var(--neon-dim); border:1px solid var(--neon-mid); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.4rem; margin-bottom:1rem; }
@@ -132,10 +140,7 @@
     .toast-notify { position:fixed; bottom:22px; right:22px; background:var(--card); border:1px solid var(--neon-mid); color:var(--text); border-radius:10px; padding:13px 20px; font-size:0.85rem; z-index:9999; transform:translateY(80px); opacity:0; transition:all 0.35s; }
     .toast-notify.show { transform:translateY(0); opacity:1; }
 
-    @media(max-width:768px){
-      .hero-divider{display:none}
-      .about-img-placeholder{width:260px;height:310px}
-    }
+    @media(max-width:768px){ .hero-divider{display:none} }
   </style>
 </head>
 <body>
@@ -143,6 +148,7 @@
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg fixed-top">
   <div class="container">
+    <a class="navbar-brand" href="#hero">&lt;SR /&gt;</a>
     <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" style="color:var(--muted)">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
@@ -165,19 +171,20 @@
   <div class="hero-glow"></div>
   <div class="container position-relative">
     <div class="row align-items-center">
-      <div class="col-lg-9">
+      <div class="col-lg-10">
         <p class="hero-tag">// Based in Karachi, Pakistan · Open to Opportunities</p>
         <h1 class="hero-name">Hi, I'm<br><span>Shan Rasheed</span></h1>
         <p class="hero-role" id="typed-role"><span></span><span class="cursor"></span></p>
         <p class="hero-desc">Software Engineer with hands-on experience designing, developing, and integrating .NET-based solutions. Specialized in ERP integrations, REST APIs, and full-stack web technologies — turning complex business requirements into scalable, user-centric applications.</p>
         <div class="d-flex flex-wrap gap-3 mb-5">
           <a href="#projects" class="btn-neon">View My Work</a>
+          <a href="Shan-Rasheed-CV.pdf" download="Shan-Rasheed-CV.pdf" class="btn-ghost">⬇ Download CV</a>
           <a href="#contact" class="btn-ghost">Get In Touch</a>
         </div>
         <div class="d-flex align-items-center gap-4 flex-wrap">
           <div class="text-center">
-            <div class="hero-stat-num" data-count="2.5">0</div>
-            <div class="hero-stat-label">Year+ Exp</div>
+            <div class="hero-stat-num" data-count="2" data-suffix=".5+">0</div>
+            <div class="hero-stat-label">Years Exp</div>
           </div>
           <div class="hero-divider"></div>
           <div class="text-center">
@@ -207,25 +214,79 @@
 <!-- ABOUT -->
 <section id="about" class="section-bg">
   <div class="container">
-    <div class="row align-items-center g-5">
-      <div class="col-lg-4 text-center">
-        <div class="d-inline-block position-relative">
-          <div class="about-img-placeholder">
-            <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="var(--neon)" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-            <span style="color:var(--muted);font-size:0.75rem;font-family:'JetBrains Mono',monospace">your-photo.jpg</span>
+    <div class="row g-5">
+
+      <!-- Left: Avatar + Info Cards -->
+      <div class="col-lg-4">
+        <!-- Initials Avatar -->
+        <div class="avatar-box">
+          <div class="avatar-ring"></div>
+          <div class="avatar-initials">SR</div>
+          <div class="avatar-label">.NET Developer</div>
+        </div>
+
+        <!-- Info cards -->
+        <div class="d-flex flex-column gap-2">
+          <div class="info-card">
+            <span class="info-card-icon">📍</span>
+            <div>
+              <div class="info-card-label">Location</div>
+              <div class="info-card-val">Karachi, Pakistan</div>
+            </div>
           </div>
-          <div class="about-badge">
-            <div class="about-badge-num">2.5+</div>
-            <div class="about-badge-text">Years of Code</div>
+          <div class="info-card">
+            <span class="info-card-icon">💼</span>
+            <div>
+              <div class="info-card-label">Company</div>
+              <div class="info-card-val">Evincible Solutions Pvt. Ltd.</div>
+            </div>
+          </div>
+          <div class="info-card">
+            <span class="info-card-icon">🎓</span>
+            <div>
+              <div class="info-card-label">Education</div>
+              <div class="info-card-val">B.B.I.T – Virtual University</div>
+            </div>
+          </div>
+          <div class="info-card">
+            <span class="info-card-icon">📧</span>
+            <div>
+              <div class="info-card-label">Email</div>
+              <div class="info-card-val" style="color:var(--neon);font-size:0.82rem">shanrasheed2021@gmail.com</div>
+            </div>
+          </div>
+          <div class="info-card" style="border-color:var(--neon-mid)">
+            <span class="info-card-icon">🟢</span>
+            <div>
+              <div class="info-card-label">Status</div>
+              <div class="info-card-val" style="color:var(--neon)">Open to Opportunities</div>
+            </div>
           </div>
         </div>
+
+        <!-- Social links -->
+        <div class="d-flex gap-2 mt-3">
+          <a href="#" class="social-btn" title="LinkedIn">
+            <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.03-1.85-3.03-1.85 0-2.13 1.44-2.13 2.93v5.67H9.38V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.35-1.85 3.58 0 4.24 2.36 4.24 5.43v6.31zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+          </a>
+          <a href="#" class="social-btn" title="GitHub">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.1.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.38-1.34-1.75-1.34-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.23-3.22-.12-.3-.53-1.52.12-3.17 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.14 3 .4 2.28-1.55 3.3-1.23 3.3-1.23.65 1.65.24 2.87.12 3.17.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.69.83.57C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          </a>
+          <a href="mailto:shanrasheed2021@gmail.com" class="social-btn" title="Email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
       </div>
+
+      <!-- Right: Bio + Tags -->
       <div class="col-lg-8">
         <p class="section-label">// who I am</p>
         <h2 class="section-title">About Me</h2>
         <div class="section-line"></div>
-        <p class="about-text">I'm a Software Engineer based in Karachi, Pakistan, with a strong focus on .NET development and Microsoft ERP ecosystems. I specialize in building integration services between enterprise ERP platforms and custom .NET applications — bridging the gap between complex business systems and elegant technical solutions.</p>
-        <p class="about-text">Passionate about innovation, problem-solving, and continuous learning. I thrive in cross-functional environments where I can align technical deliverables with real business objectives. Currently pursuing a Bachelor of Business & Information Technology at Virtual University while growing as a developer at Evincible Solutions.</p>
+        <p class="about-text">I'm a Software Engineer based in Karachi, Pakistan, with a strong focus on <strong style="color:var(--text)">.NET development</strong> and <strong style="color:var(--text)">Microsoft ERP ecosystems</strong>. I specialize in building integration services between enterprise ERP platforms and custom .NET applications — bridging the gap between complex business systems and elegant technical solutions.</p>
+        <p class="about-text">Passionate about innovation, problem-solving, and continuous learning. I thrive in cross-functional environments where I can align technical deliverables with real business objectives. Currently pursuing a Bachelor of Business &amp; Information Technology at Virtual University while growing as a developer at Evincible Solutions.</p>
+        <p class="about-text">My expertise spans the full development lifecycle — from designing robust REST APIs and ERP connectors to building responsive front-end interfaces. I'm known for delivering scalable, user-centric applications that make a measurable impact on business efficiency.</p>
+
         <div class="mb-4">
           <span class="tag">.NET Core</span>
           <span class="tag">ASP.NET MVC</span>
@@ -235,19 +296,33 @@
           <span class="tag">SQL Server</span>
           <span class="tag">JavaScript</span>
           <span class="tag">jQuery</span>
+          <span class="tag">Bootstrap</span>
+          <span class="tag">MySQL</span>
         </div>
-        <div class="d-flex gap-3 flex-wrap align-items-center">
-          <a href="Shan-Rasheed-CV.pdf.pdf" download="Shan-Rasheed-CV.pdf" class="btn-neon" style="font-size:0.8rem;padding:0.55rem 1.4rem">Download CV</a>
-          <div class="d-flex gap-2">
-            <a href="#" class="social-btn" title="LinkedIn">
-              <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.03-1.85-3.03-1.85 0-2.13 1.44-2.13 2.93v5.67H9.38V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.35-1.85 3.58 0 4.24 2.36 4.24 5.43v6.31zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
-            </a>
-            <a href="#" class="social-btn" title="GitHub">
-              <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.1.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.38-1.34-1.75-1.34-1.75-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.23-3.22-.12-.3-.53-1.52.12-3.17 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.14 3 .4 2.28-1.55 3.3-1.23 3.3-1.23.65 1.65.24 2.87.12 3.17.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.69.83.57C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
-            </a>
+
+        <!-- Achievement highlights -->
+        <div class="row g-3">
+          <div class="col-sm-4">
+            <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem;text-align:center">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:700;color:var(--neon)">2.5+</div>
+              <div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px">Years Experience</div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem;text-align:center">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:700;color:var(--neon)">2</div>
+              <div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px">MS Certifications</div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem;text-align:center">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:700;color:var(--neon)">3</div>
+              <div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px">ERP Platforms</div>
+            </div>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -310,7 +385,7 @@
         </div>
         <div style="background:var(--card);border:1px solid var(--neon-mid);border-radius:12px;padding:1.4rem">
           <p class="section-label mb-2">// achievements</p>
-          <ul style="color:var(--muted);font-size:0.85rem;line-height:2;list-style:none;padding:0">
+          <ul style="color:var(--muted);font-size:0.85rem;line-height:2.1;list-style:none;padding:0">
             <li>✦ Delivered ERP integration projects with measurable efficiency gains</li>
             <li>✦ Optimized data exchange — reduced manual workload significantly</li>
             <li>✦ Aligned technical solutions with business objectives across teams</li>
@@ -373,95 +448,61 @@
   </div>
 </section>
 
-<!-- PROJECTS / HIGHLIGHTS -->
+<!-- PROJECTS -->
 <section id="projects">
   <div class="container">
     <p class="section-label">// what I've built</p>
     <h2 class="section-title">Key Projects</h2>
     <div class="section-line"></div>
     <div class="row g-4">
-
       <div class="col-md-6 col-lg-4">
         <div class="proj-card">
           <div class="proj-icon">⚙️</div>
           <h3 class="proj-title">Dynamics 365 F&amp;O Integration</h3>
           <p class="proj-desc">Designed and implemented end-to-end integration services between Dynamics 365 Finance &amp; Operations and custom .NET applications, enabling real-time data sync across business units.</p>
-          <div>
-            <span class="proj-tag">.NET Core</span>
-            <span class="proj-tag">D365 F&amp;O</span>
-            <span class="proj-tag">REST API</span>
-            <span class="proj-tag">SQL Server</span>
-          </div>
+          <div><span class="proj-tag">.NET Core</span><span class="proj-tag">D365 F&amp;O</span><span class="proj-tag">REST API</span><span class="proj-tag">SQL Server</span></div>
         </div>
       </div>
-
       <div class="col-md-6 col-lg-4">
         <div class="proj-card">
           <div class="proj-icon">🔗</div>
           <h3 class="proj-title">Business Central Connector</h3>
           <p class="proj-desc">Built a robust connector layer between Microsoft Business Central and third-party platforms, automating data exchange and reducing manual entry through web service integrations.</p>
-          <div>
-            <span class="proj-tag">Business Central</span>
-            <span class="proj-tag">Web Services</span>
-            <span class="proj-tag">ASP.NET MVC</span>
-          </div>
+          <div><span class="proj-tag">Business Central</span><span class="proj-tag">Web Services</span><span class="proj-tag">ASP.NET MVC</span></div>
         </div>
       </div>
-
       <div class="col-md-6 col-lg-4">
         <div class="proj-card">
           <div class="proj-icon">🌐</div>
           <h3 class="proj-title">Custom ERP Web Portal</h3>
-          <p class="proj-desc">Developed a full-stack internal web portal using ASP.NET MVC, Bootstrap, and jQuery that provides unified access to ERP data, custom reporting, and workflow management tools.</p>
-          <div>
-            <span class="proj-tag">ASP.NET MVC</span>
-            <span class="proj-tag">Bootstrap</span>
-            <span class="proj-tag">jQuery</span>
-            <span class="proj-tag">SQL Server</span>
-          </div>
+          <p class="proj-desc">Developed a full-stack internal web portal using ASP.NET MVC, Bootstrap, and jQuery providing unified access to ERP data, custom reporting, and workflow management tools.</p>
+          <div><span class="proj-tag">ASP.NET MVC</span><span class="proj-tag">Bootstrap</span><span class="proj-tag">jQuery</span><span class="proj-tag">SQL Server</span></div>
         </div>
       </div>
-
       <div class="col-md-6 col-lg-4">
         <div class="proj-card">
           <div class="proj-icon">📊</div>
           <h3 class="proj-title">Data Exchange Automation</h3>
           <p class="proj-desc">Built and optimized automated data exchange pipelines between ERP platforms and downstream .NET services, significantly reducing manual workload and processing time.</p>
-          <div>
-            <span class="proj-tag">.NET Core</span>
-            <span class="proj-tag">SQL Server</span>
-            <span class="proj-tag">ERP APIs</span>
-          </div>
+          <div><span class="proj-tag">.NET Core</span><span class="proj-tag">SQL Server</span><span class="proj-tag">ERP APIs</span></div>
         </div>
       </div>
-
       <div class="col-md-6 col-lg-4">
         <div class="proj-card">
           <div class="proj-icon">🤝</div>
-          <h3 class="proj-title">CE (Customer Engagement) Integration</h3>
+          <h3 class="proj-title">CE Customer Engagement Integration</h3>
           <p class="proj-desc">Integrated Microsoft Dynamics 365 Customer Engagement with .NET backend services, enabling seamless CRM data flow and improving customer data accuracy across departments.</p>
-          <div>
-            <span class="proj-tag">D365 CE</span>
-            <span class="proj-tag">REST API</span>
-            <span class="proj-tag">.NET Core</span>
-          </div>
+          <div><span class="proj-tag">D365 CE</span><span class="proj-tag">REST API</span><span class="proj-tag">.NET Core</span></div>
         </div>
       </div>
-
       <div class="col-md-6 col-lg-4">
         <div class="proj-card">
           <div class="proj-icon">📡</div>
           <h3 class="proj-title">REST API Gateway</h3>
           <p class="proj-desc">Designed a centralized REST API gateway consumed by multiple internal teams, supporting authentication, rate limiting, logging, and ERP data aggregation from multiple sources.</p>
-          <div>
-            <span class="proj-tag">ASP.NET Core</span>
-            <span class="proj-tag">REST</span>
-            <span class="proj-tag">MySQL</span>
-            <span class="proj-tag">JWT</span>
-          </div>
+          <div><span class="proj-tag">ASP.NET Core</span><span class="proj-tag">REST</span><span class="proj-tag">MySQL</span><span class="proj-tag">JWT</span></div>
         </div>
       </div>
-
     </div>
   </div>
 </section>
@@ -508,7 +549,7 @@
             <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
           <p class="contact-label">Email</p>
-          <p class="contact-val" style="color:var(--neon);font-size:0.82rem">shanrasheed2021@gmail.com</p>
+          <p class="contact-val" style="color:var(--neon);font-size:0.8rem">shanrasheed2021@gmail.com</p>
         </div>
       </div>
       <div class="col-md-4">
@@ -530,26 +571,16 @@
         </div>
       </div>
     </div>
-
     <div class="row justify-content-center">
       <div class="col-lg-8">
         <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:2.5rem">
+          <p style="color:var(--muted);font-size:0.82rem;font-family:'JetBrains Mono',monospace;margin-bottom:1.5rem">// send_message()</p>
           <div class="row g-3">
-            <div class="col-md-6">
-              <input type="text" class="form-control" id="cf-name" placeholder="Your Name"/>
-            </div>
-            <div class="col-md-6">
-              <input type="email" class="form-control" id="cf-email" placeholder="Your Email"/>
-            </div>
-            <div class="col-12">
-              <input type="text" class="form-control" id="cf-subject" placeholder="Subject"/>
-            </div>
-            <div class="col-12">
-              <textarea class="form-control" id="cf-msg" rows="5" placeholder="Tell me about your project or opportunity..."></textarea>
-            </div>
-            <div class="col-12">
-              <button class="btn-neon w-100" onclick="handleSend()">Send Message →</button>
-            </div>
+            <div class="col-md-6"><input type="text" class="form-control" id="cf-name" placeholder="Your Name"/></div>
+            <div class="col-md-6"><input type="email" class="form-control" id="cf-email" placeholder="Your Email"/></div>
+            <div class="col-12"><input type="text" class="form-control" id="cf-subject" placeholder="Subject"/></div>
+            <div class="col-12"><textarea class="form-control" id="cf-msg" rows="5" placeholder="Tell me about your project or opportunity..."></textarea></div>
+            <div class="col-12"><button class="btn-neon w-100" onclick="handleSend()">Send Message →</button></div>
           </div>
         </div>
       </div>
@@ -560,6 +591,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="container">
+    <p style="font-family:'JetBrains Mono',monospace;color:var(--neon);font-size:1rem;margin-bottom:0.4rem">&lt;SR /&gt;</p>
     <p>Designed &amp; built by <span>Shan Rasheed</span> · 2026</p>
     <p style="margin-top:0.4rem;font-size:0.74rem;color:var(--muted)">HTML · Bootstrap 5 · Vanilla JavaScript</p>
   </div>
@@ -570,7 +602,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   // Typing effect
-  const roles = ['.NET Core Developer', 'ERP Integration Specialist', 'ASP.NET MVC Engineer', 'REST API Developer', 'Full Stack Engineer'];
+  const roles = ['.NET Core Developer','ERP Integration Specialist','ASP.NET MVC Engineer','REST API Developer','Full Stack Engineer'];
   let ri=0,ci=0,deleting=false;
   const elR=document.getElementById('typed-role');
   function typeLoop(){
@@ -585,8 +617,7 @@
   function animateCounters(){
     document.querySelectorAll('[data-count]').forEach(el=>{
       const target=+el.dataset.count, suffix=el.dataset.suffix!==undefined?el.dataset.suffix:'+';
-      let cur=0;
-      const step=Math.ceil(target/40);
+      let cur=0; const step=Math.ceil(target/40);
       const t=setInterval(()=>{ cur=Math.min(cur+step,target); el.textContent=cur+suffix; if(cur>=target)clearInterval(t); },35);
     });
   }
@@ -607,7 +638,7 @@
   },{threshold:0.15});
   document.querySelectorAll('#hero,#skills').forEach(s=>obs.observe(s));
 
-  // Active nav link
+  // Active nav
   const secs=document.querySelectorAll('section[id]');
   window.addEventListener('scroll',()=>{
     let cur='';
